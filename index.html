@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Fake Dana — Generator Saldo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="top-left">
+      <button type="button" class="menu-btn" id="menuBtn" aria-label="Buka menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="brand">FAKE<span class="x">.</span>DANA</div>
+    </div>
+    <div class="tag">saldo generator</div>
+  </div>
+
+  <div class="eyebrow">fake saldo dana</div>
+  <h1>Buat saldo <span>DANA</span> palsu.</h1>
+  <p class="sub">Ketik nominal saldo berapa aja, atau pilih dari preset di bawah. Sistem akan generate gambar saldo DANA palsu secara instan.</p>
+
+  <div class="panel">
+    <div class="panel-label"><span class="step-no">1</span> NOMINAL SALDO</div>
+
+    <!-- INPUT BEBAS -->
+    <div class="row">
+      <div class="input-shell">
+        <span class="currency">Rp</span>
+        <input
+          type="text"
+          id="nominalInput"
+          placeholder="7.000 atau 1.500.000"
+          inputmode="numeric"
+          autocomplete="off"
+          aria-label="Nominal"
+        >
+      </div>
+      <button type="button" class="ghost" id="randomBtn">Random</button>
+    </div>
+
+    <!-- SELECT PRESET -->
+    <div class="select-wrap">
+      <label for="nominalSelect" class="select-label">Atau pilih nominal cepat:</label>
+      <select id="nominalSelect" aria-label="Preset Nominal">
+        <option value="">— Pilih Nominal —</option>
+        <option value="7.000">7.000</option>
+        <option value="10.000">10.000</option>
+        <option value="25.000">25.000</option>
+        <option value="50.000">50.000</option>
+        <option value="100.000">100.000</option>
+        <option value="200.000">200.000</option>
+        <option value="400.000">400.000</option>
+        <option value="700.000">700.000</option>
+        <option value="1.000.000">1.000.000</option>
+        <option value="2.500.000">2.500.000</option>
+        <option value="5.000.000">5.000.000</option>
+        <option value="10.000.000">10.000.000</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="primary" id="submitBtn">Generate Sekarang</button>
+
+  <div class="panel" id="logPanel" style="margin-top:14px;" hidden>
+    <div class="panel-label"><span class="step-no">2</span> LOG PROSES</div>
+    <div class="log" id="log" aria-live="polite"></div>
+  </div>
+
+  <div class="result" id="result" style="margin-top:14px;" hidden></div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Menu">
+  <div class="d-head">
+    <div class="brand">FAKE<span class="x">.</span>DANA</div>
+    <button type="button" class="x-btn" id="drawerClose" aria-label="Tutup menu">✕</button>
+  </div>
+  <div class="tabs">
+    <button type="button" class="tab active" data-tab="history">Riwayat</button>
+    <button type="button" class="tab" data-tab="guide">Panduan</button>
+    <button type="button" class="tab" data-tab="settings">Settings</button>
+  </div>
+  <div class="d-body">
+    <div id="tabHistory">
+      <div class="h-tools"><span id="hCount">0 riwayat</span><button type="button" class="link-btn" id="clearAll">Hapus semua</button></div>
+      <div id="hList"></div>
+    </div>
+
+    <div id="tabGuide" hidden>
+      <div class="guide-step"><span class="step-no">1</span><div><h3>Ketik nominal</h3><p>Bisa ketik angka bebas: 7000, 25000, 1500000, dll. Titik otomatis ditambahkan.</p></div></div>
+      <div class="guide-step"><span class="step-no">2</span><div><h3>Atau pilih preset</h3><p>Ada dropdown berisi nominal cepat: 7rb, 10rb, 25rb, sampai 10jt.</p></div></div>
+      <div class="guide-step"><span class="step-no">3</span><div><h3>Tekan Generate</h3><p>Server akan membuat gambar saldo DANA palsu.</p></div></div>
+      <div class="guide-step"><span class="step-no">4</span><div><h3>Download / Share</h3><p>Gambar bisa didownload (nama file: rafz_fakedana.jpg) atau dibagikan.</p></div></div>
+      <div class="tips"><b>Catatan</b>
+        <ul>
+          <li>Hasil hanya untuk konten, hiburan, dan keperluan editing.</li>
+          <li>Dilarang digunakan untuk penipuan atau tindakan ilegal.</li>
+          <li>Riwayat tersimpan lokal di browser kamu.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="tabSettings" hidden>
+      <div class="setting-group">
+        <h3>Preferensi</h3>
+        <div class="setting-item">
+          <div class="label"><div class="name">Auto Download</div><div class="desc">Otomatis download gambar setelah generate</div></div>
+          <label class="switch"><input type="checkbox" id="setAutoDownload"><span class="slider"></span></label>
+        </div>
+        <div class="setting-item">
+          <div class="label"><div class="name">Simpan Riwayat</div><div class="desc">Simpan hasil generate ke riwayat browser</div></div>
+          <label class="switch"><input type="checkbox" id="setSaveHistory" checked><span class="slider"></span></label>
+        </div>
+        <div class="setting-item">
+          <div class="label"><div class="name">Mode Compact</div><div class="desc">Tampilan hasil lebih rapat</div></div>
+          <label class="switch"><input type="checkbox" id="setCompact"><span class="slider"></span></label>
+        </div>
+      </div>
+      <div class="set-actions">
+        <button type="button" class="set-reset" id="setReset">Reset</button>
+        <button type="button" class="set-save" id="setSave">Simpan</button>
+      </div>
+    </div>
+  </div>
+  <div class="d-foot">Developer: <b>Rafz</b><br><a href="https://whatsapp.com/channel/0029VbDGtCEDzgT8iNvBqB0V" target="_blank" rel="noopener noreferrer">Saluran WhatsApp Rafz Information</a></div>
+</aside>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal-box">
+    <h2 id="mTitle">Rafz</h2>
+    <p>IKUTI SALURAN RAFZ INFORMATION!</p>
+    <div class="modal-act">
+      <button type="button" class="m-close" id="mClose">CLOSE</button>
+      <button type="button" class="m-join" id="mJoin">IKUTI</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
